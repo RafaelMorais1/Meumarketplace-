@@ -7,11 +7,12 @@ export default defineConfig({
     globals: true,
     exclude: ['node_modules/**', 'dist/**', 'tests/e2e/**'],
     coverage: {
-      provider: 'v8',
+      provider: 'custom',
+      customProviderModule: path.resolve(__dirname, 'node_modules/@vitest/coverage-v8'),
       reporter: ['text', 'json', 'html'],
       include: ['src/modules/**/application/**'],
       exclude: ['src/**/*.d.ts'],
-    },
+    } as any,
   },
   resolve: {
     alias: {

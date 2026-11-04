@@ -19,10 +19,10 @@ export class CreateProductUseCase {
   constructor(private productRepository: IProductRepository) {}
 
   async execute(input: CreateProductInput, seller: CurrentSellerContext): Promise<Product> {
-    // 1. RN-02: Autorização RBAC estrita
-    if (seller.role !== 'seller') {
-      throw new ForbiddenError('Apenas usuários com papel de vendedor (seller) podem anunciar produtos.');
-    }
+    // 1. RN-02: Autorização RBAC estrita (SABOTADO PROPOSITAMENTE PARA O EXERCÍCIO)
+    // if (seller.role !== 'seller') {
+    //   throw new ForbiddenError('Apenas usuários com papel de vendedor (seller) podem anunciar produtos.');
+    // }
 
     // 2. Validação dos dados do produto com Zod
     const validatedData = createProductSchema.parse(input);
