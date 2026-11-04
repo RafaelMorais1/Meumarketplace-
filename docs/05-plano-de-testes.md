@@ -75,10 +75,12 @@ Este documento detalha o plano de garantia da qualidade, os níveis de teste seg
 | **RF-09** | Busca insensível a maiúsculas por nome de produto | Unitário / Regras | `tests/unit/products/list-public-products.spec.ts` | 🟢 Aprovado |
 | **RF-10** | Exibição de detalhes de produto existente e 404 para ID inválido | Unitário / Regras | `tests/unit/products/get-product-detail.spec.ts` | 🟢 Aprovado (3 testes) |
 | **RNF-01** | Hashing com Argon2id gera hashes válidos e resiste à verificação | Unitário / Cripto | `tests/unit/auth/argon2-hasher.spec.ts` | 🟢 Aprovado (3 testes) |
-| **RNF-03** | Nenhum segredo ou hash exposto nas respostas das Server Actions | Segurança | `tests/unit/auth/register-user.spec.ts` | 🟢 Aprovado |
-| **E2E-01** | Fluxo completo de cadastro, login, logout e persistência de sessão | E2E (Playwright) | `tests/e2e/auth-flow.spec.ts` | 🟡 Planejado |
-| **E2E-02** | Vendedor cadastra produto e visitante encontra na listagem pública | E2E (Playwright) | `tests/e2e/seller-product-flow.spec.ts` | 🟡 Planejado |
-| **E2E-03** | Comprador tenta acessar rotas de criação do vendedor e é barrado | E2E (Playwright) | `tests/e2e/rbac-protection.spec.ts` | 🟡 Planejado |
+| **RNF-03** | Nenhum segredo ou hash exposto nas respostas das Server Actions | Segurança | `tests/security/data-sanitization.spec.ts` | 🟢 Aprovado (3 testes) |
+| **RNF-07** | Proteção contra SQL Injection e payloads maliciosos de entrada | Segurança | `tests/security/input-validation.spec.ts` | 🟢 Aprovado (3 testes) |
+| **RBAC-01** | Guards de autorização barram requisições não autenticadas e papéis indevidos (403) | Segurança / RBAC | `tests/security/authorization.spec.ts` | 🟢 Aprovado (3 testes) |
+| **E2E-01** | Fluxo completo de cadastro, login, logout e persistência de sessão | E2E (Playwright) | `tests/e2e/auth-flow.spec.ts` | 🟢 Implementado |
+| **E2E-02** | Vendedor cadastra produto e visitante encontra na listagem pública | E2E (Playwright) | `tests/e2e/seller-product-flow.spec.ts` | 🟢 Implementado |
+| **E2E-03** | Comprador tenta acessar rotas de criação do vendedor e é barrado (403) | E2E (Playwright) | `tests/e2e/rbac-protection.spec.ts` | 🟢 Implementado |
 
 > **Legenda de Status:** 🟡 Planejado | 🔵 Em Desenvolvimento | 🟢 Aprovado / Passando | 🔴 Falhando
 

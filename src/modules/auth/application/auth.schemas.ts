@@ -15,7 +15,11 @@ export const registerSchema = z.object({
     .trim()
     .toLowerCase()
     .email('Formato de e-mail inválido')
-    .max(255, 'E-mail deve conter no máximo 255 caracteres'),
+    .max(255, 'E-mail deve conter no máximo 255 caracteres')
+    .regex(
+      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+      'E-mail contém caracteres inválidos'
+    ),
   password: z
     .string({ required_error: 'Senha é obrigatória' })
     .min(8, 'Senha deve ter no mínimo 8 caracteres (RN-04)')
@@ -39,4 +43,3 @@ export const loginSchema = z.object({
 });
 
 export type LoginInput = z.infer<typeof loginSchema>;
-

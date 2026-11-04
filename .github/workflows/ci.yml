@@ -1,0 +1,59 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  validate:
+    name: Lint, Testes e Build
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgrespassword
+          POSTGRES_DB: marketplace_dev
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      NODE_ENV: test
+      DATABASE_URL: postgres://postgres:postgrespassword@localhost:5432/marketplace_dev
+      DATABASE_URL_TEST: postgres://postgres:postgrespassword@localhost:5432/marketplace_dev
+      SESSION_SECRET: ci-pipeline-secret-key-with-at-least-32-chars-long
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Setup do Node.js LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Instalação limpa de dependências
+        run: npm ci
+
+      - name: Checagem estrita de tipos TypeScript
+        run: npx tsc --noEmit
+
+      - name: Execução das migrações do banco de dados
+        run: npm run db:migrate
+
+      - name: Execução de testes unitários, integração e cobertura
+        run: npm run test:coverage
+
+      - name: Build de produção do Next.js
+        run: npm run build
+
