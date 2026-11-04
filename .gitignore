@@ -9,7 +9,7 @@ out/
 build/
 dist/
 
-# Logs
+# Logs e relatórios de erro
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -18,14 +18,18 @@ yarn-error.log*
 # Cobertura de Testes
 coverage/
 
-# Variáveis de Ambiente locais (segredos)
-.env*.local
+# SEGREDOS E VARIÁVEIS DE AMBIENTE (RNF-03: NUNCA subir para o GitHub)
 .env
+.env.*
+!.env.example
+*.pem
+*.key
+*.cert
+*.crt
+secrets/
 
 # Arquivos do Sistema Operacional / IDE
 .DS_Store
-*.pem
 .vscode/
 .idea/
 Thumbs.db
-
