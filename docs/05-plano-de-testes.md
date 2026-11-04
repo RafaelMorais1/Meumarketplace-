@@ -71,9 +71,9 @@ Este documento detalha o plano de garantia da qualidade, os níveis de teste seg
 | **RF-07** | Vendedor remove seu próprio produto | Unitário / Regras | `tests/unit/products/delete-product.spec.ts` | 🟢 Aprovado |
 | **RF-07** | Comprador ou outro vendedor tenta deletar produto alheio (RN-02/03) | Unitário / Segurança | `tests/unit/products/delete-product.spec.ts` | 🟢 Aprovado |
 | **RF-08** | Vendedor lista apenas seus produtos cadastrados | Unitário / Regras | `tests/unit/products/list-seller-products.spec.ts` | 🟢 Aprovado |
-| **RF-09** | Visitante lista produtos com paginação correta | Unitário / Integração | `tests/unit/products/list-public-products.spec.ts` | 🟡 Planejado |
-| **RF-09** | Busca insensível a maiúsculas por nome de produto | Unitário / Integração | `tests/unit/products/list-public-products.spec.ts` | 🟡 Planejado |
-| **RF-10** | Exibição de detalhes de produto existente e 404 para ID inválido | Unitário / API | `tests/unit/products/get-product-detail.spec.ts` | 🟡 Planejado |
+| **RF-09** | Visitante lista produtos com paginação correta | Unitário / Regras | `tests/unit/products/list-public-products.spec.ts` | 🟢 Aprovado (5 testes) |
+| **RF-09** | Busca insensível a maiúsculas por nome de produto | Unitário / Regras | `tests/unit/products/list-public-products.spec.ts` | 🟢 Aprovado |
+| **RF-10** | Exibição de detalhes de produto existente e 404 para ID inválido | Unitário / Regras | `tests/unit/products/get-product-detail.spec.ts` | 🟢 Aprovado (3 testes) |
 | **RNF-01** | Hashing com Argon2id gera hashes válidos e resiste à verificação | Unitário / Cripto | `tests/unit/auth/argon2-hasher.spec.ts` | 🟢 Aprovado (3 testes) |
 | **RNF-03** | Nenhum segredo ou hash exposto nas respostas das Server Actions | Segurança | `tests/unit/auth/register-user.spec.ts` | 🟢 Aprovado |
 | **E2E-01** | Fluxo completo de cadastro, login, logout e persistência de sessão | E2E (Playwright) | `tests/e2e/auth-flow.spec.ts` | 🟡 Planejado |

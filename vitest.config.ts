@@ -6,10 +6,11 @@ export default defineConfig({
     environment: 'node',
     globals: true,
     coverage: {
-      provider: 'v8',
+      provider: 'custom',
+      customProviderModule: path.resolve(__dirname, 'node_modules/@vitest/coverage-v8'),
       reporter: ['text', 'json', 'html'],
-      include: ['src/modules/**'],
-      exclude: ['src/modules/**/infrastructure/**', 'src/**/*.d.ts'],
+      include: ['src/modules/**/application/**'],
+      exclude: ['src/**/*.d.ts'],
     },
   },
   resolve: {
