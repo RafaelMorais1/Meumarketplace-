@@ -59,23 +59,23 @@ Este documento detalha o plano de garantia da qualidade, os níveis de teste seg
 
 | ID Requisito | Cenário Testado | Nível de Teste | Arquivo de Teste Planejado | Status |
 | :--- | :--- | :--- | :--- | :--- |
-| **RF-01** | Cadastro com dados válidos, e-mail duplicado, senha curta e papéis inválidos | Unitário / API | `tests/unit/auth/register-user.spec.ts` | 🟡 Planejado |
-| **RF-02** | Login com credenciais certas, senha incorreta, e-mail inexistente e rate-limit | Unitário / API | `tests/unit/auth/login-user.spec.ts` | 🟡 Planejado |
-| **RF-03** | Invalidação de sessão no banco e expiração de cookie no logout | Unitário / Integração | `tests/unit/auth/logout-user.spec.ts` | 🟡 Planejado |
-| **RF-04** | Obtenção do perfil logado sem expor `password_hash` ou tokens | Unitário / API | `tests/unit/auth/get-current-user.spec.ts` | 🟡 Planejado |
-| **RF-05** | Vendedor cria produto com preço válido em centavos | Unitário | `tests/unit/products/create-product.spec.ts` | 🟡 Planejado |
-| **RF-05** | Comprador (`buyer`) tenta criar produto e é bloqueado (403) | Unitário / Segurança | `tests/unit/products/create-product.spec.ts` | 🟡 Planejado |
-| **RF-05** | Tentativa de criar produto com preço negativo ou zero (RN-05) | Unitário | `tests/unit/products/create-product.spec.ts` | 🟡 Planejado |
-| **RF-06** | Vendedor edita com sucesso o seu próprio produto | Unitário | `tests/unit/products/update-product.spec.ts` | 🟡 Planejado |
-| **RF-06** | Vendedor A tenta editar produto do Vendedor B e recebe 403 (RN-03) | Unitário / Segurança | `tests/unit/products/update-product.spec.ts` | 🟡 Planejado |
-| **RF-07** | Vendedor remove seu próprio produto | Unitário / Integração | `tests/unit/products/delete-product.spec.ts` | 🟡 Planejado |
-| **RF-07** | Comprador ou outro vendedor tenta deletar produto alheio (RN-02/03) | Unitário / Segurança | `tests/unit/products/delete-product.spec.ts` | 🟡 Planejado |
-| **RF-08** | Vendedor lista apenas seus produtos cadastrados | Unitário / Integração | `tests/unit/products/list-seller-products.spec.ts` | 🟡 Planejado |
+| **RF-01** | Cadastro com dados válidos, e-mail duplicado, senha curta e papéis inválidos | Unitário / Regras | `tests/unit/auth/register-user.spec.ts` | 🟢 Aprovado (6 testes) |
+| **RF-02** | Login com credenciais certas, senha incorreta, e-mail inexistente e rate-limit | Unitário / Regras | `tests/unit/auth/login-user.spec.ts` | 🟢 Aprovado (3 testes) |
+| **RF-03** | Invalidação de sessão no banco e expiração de cookie no logout | Unitário / Regras | `tests/unit/auth/logout-user.spec.ts` | 🟢 Aprovado (2 testes) |
+| **RF-04** | Obtenção do perfil logado sem expor `password_hash` ou tokens | Unitário / Regras | `tests/unit/auth/get-current-user.spec.ts` | 🟢 Aprovado (4 testes) |
+| **RF-05** | Vendedor cria produto com preço válido em centavos | Unitário / Regras | `tests/unit/products/create-product.spec.ts` | 🟢 Aprovado |
+| **RF-05** | Comprador (`buyer`) tenta criar produto e é bloqueado (403) | Unitário / Segurança | `tests/unit/products/create-product.spec.ts` | 🟢 Aprovado |
+| **RF-05** | Tentativa de criar produto com preço negativo ou zero (RN-05) | Unitário / Regras | `tests/unit/products/create-product.spec.ts` | 🟢 Aprovado |
+| **RF-06** | Vendedor edita com sucesso o seu próprio produto | Unitário / Regras | `tests/unit/products/update-product.spec.ts` | 🟢 Aprovado |
+| **RF-06** | Vendedor A tenta editar produto do Vendedor B e recebe 403 (RN-03) | Unitário / Segurança | `tests/unit/products/update-product.spec.ts` | 🟢 Aprovado |
+| **RF-07** | Vendedor remove seu próprio produto | Unitário / Regras | `tests/unit/products/delete-product.spec.ts` | 🟢 Aprovado |
+| **RF-07** | Comprador ou outro vendedor tenta deletar produto alheio (RN-02/03) | Unitário / Segurança | `tests/unit/products/delete-product.spec.ts` | 🟢 Aprovado |
+| **RF-08** | Vendedor lista apenas seus produtos cadastrados | Unitário / Regras | `tests/unit/products/list-seller-products.spec.ts` | 🟢 Aprovado |
 | **RF-09** | Visitante lista produtos com paginação correta | Unitário / Integração | `tests/unit/products/list-public-products.spec.ts` | 🟡 Planejado |
 | **RF-09** | Busca insensível a maiúsculas por nome de produto | Unitário / Integração | `tests/unit/products/list-public-products.spec.ts` | 🟡 Planejado |
 | **RF-10** | Exibição de detalhes de produto existente e 404 para ID inválido | Unitário / API | `tests/unit/products/get-product-detail.spec.ts` | 🟡 Planejado |
-| **RNF-01** | Hashing com Argon2id gera hashes válidos e resiste à verificação | Unitário | `tests/unit/auth/argon2-hasher.spec.ts` | 🟡 Planejado |
-| **RNF-03** | Nenhum segredo ou hash exposto nas respostas das Server Actions | Segurança | `tests/integration/security/data-sanitization.spec.ts` | 🟡 Planejado |
+| **RNF-01** | Hashing com Argon2id gera hashes válidos e resiste à verificação | Unitário / Cripto | `tests/unit/auth/argon2-hasher.spec.ts` | 🟢 Aprovado (3 testes) |
+| **RNF-03** | Nenhum segredo ou hash exposto nas respostas das Server Actions | Segurança | `tests/unit/auth/register-user.spec.ts` | 🟢 Aprovado |
 | **E2E-01** | Fluxo completo de cadastro, login, logout e persistência de sessão | E2E (Playwright) | `tests/e2e/auth-flow.spec.ts` | 🟡 Planejado |
 | **E2E-02** | Vendedor cadastra produto e visitante encontra na listagem pública | E2E (Playwright) | `tests/e2e/seller-product-flow.spec.ts` | 🟡 Planejado |
 | **E2E-03** | Comprador tenta acessar rotas de criação do vendedor e é barrado | E2E (Playwright) | `tests/e2e/rbac-protection.spec.ts` | 🟡 Planejado |

@@ -13,3 +13,4 @@ export class FakePasswordHasher implements IPasswordHasher {
     return hash === `hashed_${plainPassword}`;
   }
 }
+

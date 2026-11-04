@@ -1,4 +1,4 @@
-import { hash, verify, Algorithm } from '@node-rs/argon2';
+import { hash, verify } from '@node-rs/argon2';
 import { IPasswordHasher } from '../domain/password-hasher.interface';
 
 /**
@@ -8,8 +8,9 @@ import { IPasswordHasher } from '../domain/password-hasher.interface';
  */
 export class Argon2PasswordHasher implements IPasswordHasher {
   // Configurações recomendadas pela OWASP para ambientes de aplicação
+  // algorithm: 2 representa Algorithm.Argon2id em @node-rs/argon2
   private readonly options = {
-    algorithm: Algorithm.Argon2id,
+    algorithm: 2,      // Argon2id
     memoryCost: 19456, // 19 MB de RAM por hash
     timeCost: 2,       // 2 iterações
     parallelism: 1,    // 1 thread

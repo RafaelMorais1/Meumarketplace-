@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { Navbar } from '@/components/navbar';
 
 export const metadata: Metadata = {
   title: 'Marketplace MVP',
@@ -14,9 +15,9 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className="min-h-screen flex flex-col bg-slate-50 text-slate-900 antialiased">
-        {children}
+        <Navbar />
+        <div className="flex-1 flex flex-col">{children}</div>
       </body>
     </html>
   );
 }
-

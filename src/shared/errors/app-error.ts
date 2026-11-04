@@ -32,3 +32,4 @@ export class NotFoundError extends AppError {
 export class ConflictError extends AppError {
   public readonly statusCode = 409;
 }
+

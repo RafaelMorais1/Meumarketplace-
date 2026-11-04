@@ -21,3 +21,4 @@ export class SessionTokenService {
     return crypto.createHash('sha256').update(token).digest('hex');
   }
 }
+
