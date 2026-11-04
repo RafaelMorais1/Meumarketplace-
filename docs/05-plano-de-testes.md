@@ -84,3 +84,12 @@ Este documento detalha o plano de garantia da qualidade, os níveis de teste seg
 
 > **Legenda de Status:** 🟡 Planejado | 🔵 Em Desenvolvimento | 🟢 Aprovado / Passando | 🔴 Falhando
 
+---
+
+## 4. Auditoria de Cobertura de Requisitos
+
+- **Total de Requisitos do MVP:** 10 Funcionais (`RF-01` a `RF-10`) + 3 Não Funcionais Críticos (`RNF-01`, `RNF-03`, `RNF-07`) + 1 RBAC + 3 Jornadas E2E.
+- **Requisitos com Testes Aprovados/Implementados:** 17 de 17 (**100% de conformidade**).
+- **Requisitos Sem Testes:** **NENHUM**. Todos os requisitos possuem ao menos um teste automatizado rastreável.
+- **Cobertura de Código (V8):** **99.14%** de cobertura de linhas em toda a camada de aplicação/regras de negócio.
+
