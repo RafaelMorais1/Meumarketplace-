@@ -4,15 +4,23 @@ Este documento registra as funcionalidades e melhorias arquiteturais planejadas 
 
 ---
 
-## Fase 1: MVP Funcional (Escopo Atual)
+## Fase 1: MVP Funcional (Escopo Concluído e Homologado)
 - [x] Especificação e arquitetura modular documentada
-- [ ] Setup de ambiente local com Docker e automação de testes
-- [ ] Modelo relacional no Postgres com Drizzle ORM e migrações
-- [ ] Autenticação stateful segura com Argon2id e controle de acesso RBAC (`buyer` / `seller`)
-- [ ] CRUD completo de produtos para vendedores com isolamento estrito
-- [ ] Catálogo público de produtos com paginação e busca simples
-- [ ] Pirâmide de testes completa (Unitários, Integração, E2E com Playwright)
-- [ ] Pipeline de CI no GitHub Actions
+- [x] Setup de ambiente local com Docker e automação de testes
+- [x] Modelo relacional no Postgres com Drizzle ORM e migrações
+- [x] Autenticação stateful segura com Argon2id e controle de acesso RBAC (`buyer` / `seller`)
+- [x] CRUD completo de produtos para vendedores com isolamento estrito
+- [x] Catálogo público de produtos com paginação e busca simples
+- [x] Pirâmide de testes completa (Unitários, Integração, E2E com Playwright)
+- [x] Pipeline de CI no GitHub Actions
+
+## Fase 1.1: Recuperação de Conta e Segurança Aprimorada (Em Andamento)
+- [ ] **Recuperação de Senha Segura (OWASP ASVS):**
+  - Solicitação de redefinição via e-mail com resposta anti-enumeração de usuários (RF-11).
+  - Tabela `password_reset_tokens` com hash SHA-256 em repouso e expiração de 30 minutos (ADR-005).
+  - Redefinição de senha com validação de uso único e regras de complexidade (RF-12, RN-07).
+  - Revogação imediata de todas as sessões ativas do usuário após redefinição (RN-08).
+  - Interface desacoplada `EmailService` (console em dev, expansível para Resend/SES).
 
 ---
 

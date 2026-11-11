@@ -74,5 +74,15 @@ export class DrizzleUserRepository implements IUserRepository {
       updatedAt: inserted.updatedAt,
     };
   }
+
+  async updatePassword(userId: string, newPasswordHash: string): Promise<void> {
+    await this.drizzleDb
+      .update(users)
+      .set({
+        passwordHash: newPasswordHash,
+        updatedAt: new Date(),
+      })
+      .where(eq(users.id, userId));
+  }
 }
 

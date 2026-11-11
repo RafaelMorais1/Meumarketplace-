@@ -14,7 +14,8 @@ Toda a documentação viva, decisões técnicas e conceitos teóricos residem na
 - [04 - Roadmap do Projeto](file:///c:/Users/rafael.morais/Novo%20projeto/docs/04-roadmap.md) (Evolução pós-MVP: Checkout, Upload S3, Reviews)
 - [05 - Estratégia de Testes e Matriz de Rastreabilidade](file:///c:/Users/rafael.morais/Novo%20projeto/docs/05-plano-de-testes.md) (Pirâmide de testes e 100% de cobertura de requisitos)
 - [06 - Roteiro de Validação Manual (Smoke Test)](file:///c:/Users/rafael.morais/Novo%20projeto/docs/06-roteiro-validacao.md) (Checklist de homologação com 12 passos)
-- [Decisões de Arquitetura (ADRs)](file:///c:/Users/rafael.morais/Novo%20projeto/docs/adr) (ADR-001 a ADR-004)
+- [07 - Política de Branches e Versionamento](file:///c:/Users/rafael.morais/Novo%20projeto/docs/07-politica-de-branches.md) (Proibição de commits diretos na main, convenções semânticas e PRs)
+- [Decisões de Arquitetura (ADRs)](file:///c:/Users/rafael.morais/Novo%20projeto/docs/adr) (ADR-001 a ADR-005)
 - [Pílulas de Aprendizado](file:///c:/Users/rafael.morais/Novo%20projeto/docs/aprendizado) (Monólito modular, sessões seguras, Argon2id, Fail-Fast, Migrações, Gestão de Segredos)
 
 ---
@@ -52,6 +53,9 @@ Acesse [http://localhost:3000](http://localhost:3000) no seu navegador.
 ---
 
 ## 🧪 Como Rodar os Testes
+
+> ⚠️ **Política Inegociável de Testes (Zero Bypass):**
+> Nunca, em hipótese alguma, dê bypass ou ignore testes no projeto. Sempre execute cada cenário de teste e verifique detalhadamente os resultados. Se um teste falhar, investigue e corrija a causa raiz no código ou no adaptador com integridade técnica. Consulte [05 - Estratégia de Testes](file:///c:/Users/rafael.morais/Novo%20projeto/docs/05-plano-de-testes.md) para diretrizes completas.
 
 ```bash
 # Executa todos os testes unitários, de integração e de segurança

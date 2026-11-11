@@ -10,6 +10,7 @@
 - **Foco em Didática**: Não apenas entregar código, mas explicar os **porquês**, trade-offs, armadilhas e conceitos teóricos aplicados.
 - **Linguagem**: Comunicação, documentação e comentários em **Português (do Brasil)**; nomes de código (variáveis, funções, tabelas, classes) em **Inglês**.
 - **Ritmo de Execução**: Executar em etapas incrementais, pequenas e verificáveis. Pausar ao fim de cada etapa e só avançar após confirmação do usuário.
+- **Política Estrita de Branches**: PROIBIDO commits diretos na `main`/`master`. Toda e qualquer alteração (bugfix, feat, refactor, docs) deve nascer em branch dedicada com prefixo semântico e subir via Pull Request (ver `docs/07-politica-de-branches.md`).
 
 ---
 
@@ -50,6 +51,10 @@ Construir um **Monólito Modular** de marketplace funcional, seguro e testável 
 ---
 
 ## 4. Estratégia de Testes e Rastreabilidade
+- **Diretriz Inegociável: Proibição Absoluta de Bypass em Testes**:
+  - **NUNCA, em hipótese alguma, dar bypass, suprimir, comentar ou ignorar testes com `.skip` indevido.**
+  - Sempre executar cada cenário e verificar detalhadamente os resultados (asserções, logs de erro, códigos de saída).
+  - Se um teste falhar ou apresentar anomalias, a causa raiz DEVE ser investigada e corrigida na regra de negócio ou no adaptador com integridade técnica, NUNCA pulando ou mascarando o teste.
 - **Pirâmide de Testes**:
   1. *Unitários*: Casos de uso e regras de negócio com repositórios mockados.
   2. *Integração*: Repositórios e migrations rodando contra PostgreSQL real em container isolado.
@@ -71,6 +76,7 @@ Construir um **Monólito Modular** de marketplace funcional, seguro e testável 
 - `docs/04-roadmap.md`: Próximas iterações pós-MVP.
 - `docs/05-plano-de-testes.md`: Estratégia, comandos e matriz de rastreabilidade.
 - `docs/06-roteiro-validacao.md`: Checklist de smoke test manual para o usuário testar.
+- `docs/07-politica-de-branches.md`: Política mandatória de branches, convenções semânticas e fluxo de Pull Requests.
 - `docs/aprendizado/`: Guias curtos explicando conceitos-chave de arquitetura e computação.
 - `README.md`: Instruções de inicialização rápida via Docker e execução de testes.
 
