@@ -67,3 +67,4 @@ flowchart LR
 - **Controle Preciso de Releases:** Sabemos com exatidão quais features e correções compõem cada versão entregue.
 - **Isolamento de Erros:** Se uma nova funcionalidade apresentar regressão, ela pode ser revertida de forma cirúrgica sem afetar outras partes do sistema.
 - **Rastreabilidade e Governança:** O histórico do repositório torna-se legível, profissional e auditável para qualquer membro da equipe ou investidores.
+
