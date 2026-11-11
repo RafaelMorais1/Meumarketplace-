@@ -42,7 +42,7 @@ export default function RegisterPage() {
           </div>
         )}
 
-        <form action={formAction} className="mt-8 space-y-5">
+        <form action={formAction} className="mt-8 space-y-5" autoComplete="off">
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1" htmlFor="name">
               Nome Completo
@@ -52,6 +52,7 @@ export default function RegisterPage() {
               name="name"
               type="text"
               required
+              autoComplete="off"
               placeholder="Ex: João Silva"
               className="w-full rounded-lg border border-slate-300 px-3.5 py-2 text-slate-900 shadow-sm focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600 sm:text-sm"
             />
@@ -66,6 +67,7 @@ export default function RegisterPage() {
               name="email"
               type="email"
               required
+              autoComplete="off"
               placeholder="seu@email.com"
               className="w-full rounded-lg border border-slate-300 px-3.5 py-2 text-slate-900 shadow-sm focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600 sm:text-sm"
             />
@@ -80,6 +82,7 @@ export default function RegisterPage() {
               name="password"
               type="password"
               required
+              autoComplete="new-password"
               placeholder="••••••••"
               className="w-full rounded-lg border border-slate-300 px-3.5 py-2 text-slate-900 shadow-sm focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600 sm:text-sm"
             />
