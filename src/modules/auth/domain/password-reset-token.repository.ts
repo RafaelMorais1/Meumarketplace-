@@ -9,3 +9,4 @@ export interface IPasswordResetTokenRepository {
   markAsUsed(id: string): Promise<void>;
   invalidateAllByUserId(userId: string): Promise<void>;
 }
+

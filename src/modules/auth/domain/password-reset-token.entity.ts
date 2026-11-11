@@ -9,3 +9,4 @@ export interface PasswordResetToken {
   usedAt: Date | null;
   createdAt: Date;
 }
+

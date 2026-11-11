@@ -50,6 +50,10 @@ Construir um **Monólito Modular** de marketplace funcional, seguro e testável 
 ---
 
 ## 4. Estratégia de Testes e Rastreabilidade
+- **Diretriz Inegociável: Proibição Absoluta de Bypass em Testes**:
+  - **NUNCA, em hipótese alguma, dar bypass, suprimir, comentar ou ignorar testes com `.skip` indevido.**
+  - Sempre executar cada cenário e verificar detalhadamente os resultados (asserções, logs de erro, códigos de saída).
+  - Se um teste falhar ou apresentar anomalias, a causa raiz DEVE ser investigada e corrigida na regra de negócio ou no adaptador com integridade técnica, NUNCA pulando ou mascarando o teste.
 - **Pirâmide de Testes**:
   1. *Unitários*: Casos de uso e regras de negócio com repositórios mockados.
   2. *Integração*: Repositórios e migrations rodando contra PostgreSQL real em container isolado.

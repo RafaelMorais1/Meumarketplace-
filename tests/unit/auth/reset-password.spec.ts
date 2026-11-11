@@ -129,3 +129,4 @@ describe('RF-12: Redefinição de Senha com Token (ResetPasswordUseCase)', () =>
     ).rejects.toThrow();
   });
 });
+

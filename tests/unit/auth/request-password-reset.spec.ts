@@ -79,3 +79,4 @@ describe('RF-11: Solicitação de Recuperação de Senha (RequestPasswordResetUs
     expect(tokenRepo.tokens[1].usedAt).toBeNull();
   });
 });
+

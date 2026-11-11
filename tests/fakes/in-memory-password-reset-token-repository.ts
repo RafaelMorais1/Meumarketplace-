@@ -39,3 +39,4 @@ export class InMemoryPasswordResetTokenRepository implements IPasswordResetToken
       });
   }
 }
+

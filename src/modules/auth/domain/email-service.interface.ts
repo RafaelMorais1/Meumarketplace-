@@ -5,3 +5,4 @@
 export interface IEmailService {
   sendPasswordResetEmail(toEmail: string, resetLink: string): Promise<void>;
 }
+

@@ -14,3 +14,4 @@ export class ConsoleEmailService implements IEmailService {
     console.log('='.repeat(60) + '\n');
   }
 }
+

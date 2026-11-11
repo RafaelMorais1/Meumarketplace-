@@ -4,6 +4,23 @@ Este documento detalha o plano de garantia da qualidade, os níveis de teste seg
 
 ---
 
+## ⚠️ Diretriz Inegociável: Proibição Absoluta de Bypass em Testes
+
+> **REGRA DE OURO DO PROJETO:**
+> **NUNCA, EM HIPÓTESE ALGUMA, DÊ BYPASS, SUPRIMA OU IGNORE TESTES.**
+> 
+> 1. **Execução Obrigatória de Cada Cenário:** Todo e qualquer teste automatizado (unitário, integração, segurança e ponta a ponta) deve ser executado rigorosamente de ponta a ponta.
+> 2. **Inspeção Detalhada dos Resultados:** É obrigatório inspecionar detalhadamente os logs de saída, asserções e códigos de retorno de cada cenário. Se um teste falhar ou apresentar anomalias, a causa raiz **DEVE ser investigada e corrigida na regra de negócio ou no adaptador** com integridade técnica.
+> 3. **Proibições Expressas:**
+>    - É estritamente proibido comentar testes que estejam falhando para "fazer o build passar".
+>    - É estritamente proibido adicionar `.skip` ou ignorar cenários que falharam para mascarar defeitos.
+>    - É estritamente proibido afrouxar asserções (ex: trocar verificações estritas por genéricas) para disfarçar quebras de contrato.
+>    - É estritamente proibido usar mocks excessivos que disfarcem o comportamento real da aplicação.
+> 
+> *Essa diretriz é mandatória para qualquer desenvolvedor ou agente de IA atuando neste repositório. Sempre que for executar testes, consulte e obedeça rigorosamente a esta regra.*
+
+---
+
 ## 1. Pirâmide de Testes
 
 ```text
@@ -74,6 +91,8 @@ Este documento detalha o plano de garantia da qualidade, os níveis de teste seg
 | **RF-09** | Visitante lista produtos com paginação correta | Unitário / Regras | `tests/unit/products/list-public-products.spec.ts` | 🟢 Aprovado (5 testes) |
 | **RF-09** | Busca insensível a maiúsculas por nome de produto | Unitário / Regras | `tests/unit/products/list-public-products.spec.ts` | 🟢 Aprovado |
 | **RF-10** | Exibição de detalhes de produto existente e 404 para ID inválido | Unitário / Regras | `tests/unit/products/get-product-detail.spec.ts` | 🟢 Aprovado (3 testes) |
+| **RF-11** | Solicitação de recuperação com token SHA-256, anti-enumeração e invalidação anterior | Unitário / Regras | `tests/unit/auth/request-password-reset.spec.ts` | 🟢 Aprovado (3 testes) |
+| **RF-12** | Redefinição com token válido, descarte de token consumido/expirado e revogação de sessões | Unitário / Regras | `tests/unit/auth/reset-password.spec.ts` | 🟢 Aprovado (5 testes) |
 | **RNF-01** | Hashing com Argon2id gera hashes válidos e resiste à verificação | Unitário / Cripto | `tests/unit/auth/argon2-hasher.spec.ts` | 🟢 Aprovado (3 testes) |
 | **RNF-03** | Nenhum segredo ou hash exposto nas respostas das Server Actions | Segurança | `tests/security/data-sanitization.spec.ts` | 🟢 Aprovado (3 testes) |
 | **RNF-07** | Proteção contra SQL Injection e payloads maliciosos de entrada | Segurança | `tests/security/input-validation.spec.ts` | 🟢 Aprovado (3 testes) |

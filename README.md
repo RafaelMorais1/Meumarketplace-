@@ -53,6 +53,9 @@ Acesse [http://localhost:3000](http://localhost:3000) no seu navegador.
 
 ## 🧪 Como Rodar os Testes
 
+> ⚠️ **Política Inegociável de Testes (Zero Bypass):**
+> Nunca, em hipótese alguma, dê bypass ou ignore testes no projeto. Sempre execute cada cenário de teste e verifique detalhadamente os resultados. Se um teste falhar, investigue e corrija a causa raiz no código ou no adaptador com integridade técnica. Consulte [05 - Estratégia de Testes](file:///c:/Users/rafael.morais/Novo%20projeto/docs/05-plano-de-testes.md) para diretrizes completas.
+
 ```bash
 # Executa todos os testes unitários, de integração e de segurança
 npm run test

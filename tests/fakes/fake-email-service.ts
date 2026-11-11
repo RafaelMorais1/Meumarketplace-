@@ -7,3 +7,4 @@ export class FakeEmailService implements IEmailService {
     this.sentEmails.push({ toEmail, resetLink });
   }
 }
+
