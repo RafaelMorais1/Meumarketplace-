@@ -14,6 +14,14 @@ Este documento registra as funcionalidades e melhorias arquiteturais planejadas 
 - [x] Pirâmide de testes completa (Unitários, Integração, E2E com Playwright)
 - [x] Pipeline de CI no GitHub Actions
 
+## Fase 1.1: Recuperação de Conta e Segurança Aprimorada (Em Andamento)
+- [ ] **Recuperação de Senha Segura (OWASP ASVS):**
+  - Solicitação de redefinição via e-mail com resposta anti-enumeração de usuários (RF-11).
+  - Tabela `password_reset_tokens` com hash SHA-256 em repouso e expiração de 30 minutos (ADR-005).
+  - Redefinição de senha com validação de uso único e regras de complexidade (RF-12, RN-07).
+  - Revogação imediata de todas as sessões ativas do usuário após redefinição (RN-08).
+  - Interface desacoplada `EmailService` (console em dev, expansível para Resend/SES).
+
 ---
 
 ## Fase 2: Mídia e Experiência de Catálogo

@@ -10,6 +10,7 @@ Este documento detalha o modelo relacional do Marketplace para o PostgreSQL 16, 
 erDiagram
     USERS ||--o{ SESSIONS : "possui"
     USERS ||--o{ PRODUCTS : "anuncia / vende"
+    USERS ||--o{ PASSWORD_RESET_TOKENS : "solicita"
 
     USERS {
         uuid id PK "Identificador único (UUIDv7 ou v4)"
@@ -27,6 +28,15 @@ erDiagram
         string token_hash UK "Hash SHA-256 do token de sessão"
         timestamp expires_at "Data limite de validade da sessão"
         timestamp created_at "Data e hora de emissão"
+    }
+
+    PASSWORD_RESET_TOKENS {
+        uuid id PK "Identificador do token de recuperação"
+        uuid user_id FK "Chave estrangeira para USERS"
+        string token_hash UK "Hash SHA-256 do token temporário"
+        timestamp expires_at "Momento da expiração (30 min)"
+        timestamp used_at "Data do uso (NULL se não utilizado)"
+        timestamp created_at "Data de geração do token"
     }
 
     PRODUCTS {
@@ -102,4 +112,24 @@ Armazena o catálogo de produtos anunciados pelos vendedores.
   - `idx_products_seller_id` (B-Tree) para carregar os produtos do vendedor na área restrita.
   - `idx_products_created_at` (B-Tree DESC) para ordenação rápida na listagem pública.
   - `idx_products_title` (B-Tree ou pg_trgm GIN no roadmap) para busca por nome.
+
+---
+
+### 2.4 Tabela `password_reset_tokens`
+Gerencia os tokens temporários para o fluxo seguro de recuperação de senha (RF-11, RF-12).
+
+> **Princípio de Menor Privilégio e Defesa em Profundidade:** Assim como nas sessões, o token puro trafega apenas no link enviado ao e-mail do usuário (`?token=XYZ`). No banco de dados, armazenamos exclusivamente o hash criptográfico `SHA-256(token)`. Em caso de vazamento do banco, nenhum invasor consegue redefinir a senha de usuários.
+
+| Coluna | Tipo SQL | Restrições | Descrição |
+| :--- | :--- | :--- | :--- |
+| `id` | `UUID` | `PRIMARY KEY`, `DEFAULT gen_random_uuid()` | Identificador do registro do token. |
+| `user_id` | `UUID` | `NOT NULL`, `REFERENCES users(id) ON DELETE CASCADE` | Usuário que solicitou a recuperação. |
+| `token_hash` | `CHAR(64)` | `NOT NULL`, `UNIQUE` | Hash SHA-256 do token aleatório de 256 bits. |
+| `expires_at` | `TIMESTAMP WITH TIME ZONE` | `NOT NULL` | Expiração estrita (30 minutos a partir da emissão). |
+| `used_at` | `TIMESTAMP WITH TIME ZONE` | `NULL` | Timestamp de utilização (`NULL` = token ativo e não usado). |
+| `created_at` | `TIMESTAMP WITH TIME ZONE` | `NOT NULL`, `DEFAULT NOW()` | Data e hora da solicitação. |
+
+- **Índices:**
+  - `idx_password_reset_tokens_token_hash` (B-Tree em `token_hash`) para busca instantânea e validação.
+  - `idx_password_reset_tokens_user_id` (B-Tree em `user_id`) para invalidar tokens anteriores ao gerar um novo.
 

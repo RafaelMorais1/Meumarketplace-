@@ -18,6 +18,8 @@ Este documento estabelece o escopo formal do MVP (Minimum Viable Product) do Mar
 | **RF-08** | Listagem de Produtos do Vendedor | Listar exclusivamente os produtos pertencentes ao vendedor autenticado na sua área administrativa ("Meus Produtos"). | Vendedor (`seller`) | - Retorna apenas produtos onde `seller_id == user.id`.<br>- Ordenados pelos mais recentes. |
 | **RF-09** | Catálogo Público de Produtos | Permitir que qualquer visitante ou comprador liste produtos disponíveis com paginação e busca por título. | Visitante / Comprador | - Acesso público sem necessidade de login.<br>- Paginação configurável (ex: 10 itens por página).<br>- Busca simples insensível a maiúsculas/minúsculas (case-insensitive) por termo contido no título. |
 | **RF-10** | Detalhes do Produto | Exibir as informações completas de um produto específico (título, descrição, preço formatado, estoque e nome do vendedor). | Visitante / Comprador | - Acesso público.<br>- Se o ID não existir, retornar 404 (Não Encontrado). |
+| **RF-11** | Solicitação de Recuperação de Senha | Permitir que o usuário solicite redefinição de senha informando seu e-mail cadastrado. | Visitante / Usuário | - Proteção contra enumeração: a resposta exibida deve ser neutra ("Se o e-mail existir, você receberá as instruções").<br>- Geração de token criptograficamente seguro (256 bits).<br>- Token armazenado com hash SHA-256 no banco.<br>- Validade estrita de 15 a 30 minutos.<br>- Disparo de e-mail com link contendo o token puro. |
+| **RF-12** | Redefinição de Senha com Token | Permitir a definição de uma nova senha a partir de um token de recuperação válido. | Visitante / Usuário | - Validação do hash do token e verificação de expiração e uso anterior.<br>- Nova senha deve seguir as regras de complexidade (RN-04).<br>- Token marcado como utilizado após sucesso.<br>- Revogação obrigatória de todas as sessões ativas do usuário (RN-08). |
 
 ---
 
@@ -47,6 +49,11 @@ Este documento estabelece o escopo formal do MVP (Minimum Viable Product) do Mar
 - **RN-04 (Formato de Senha):** Senhas devem conter no mínimo 8 caracteres, incluindo ao menos uma letra e um número.
 - **RN-05 (Preço Mínimo de Produto):** O preço de um produto deve ser maior que zero (mínimo de R$ 0,50 ou 50 centavos).
 - **RN-06 (Sessão Única ou Múltipla com Expiração):** Sessões expiram após 7 dias de inatividade ou 30 dias absolutos.
+- **RN-07 (Ciclo de Vida e Uso Único do Token de Recuperação):**
+  - O token de recuperação possui tempo de expiração curto (30 minutos).
+  - Um token só pode ser utilizado uma única vez (`used_at IS NULL`).
+  - Ao solicitar nova recuperação, tokens anteriores não utilizados do mesmo usuário são invalidados.
+- **RN-08 (Revogação de Sessões após Redefinição):** Ao concluir a redefinição de senha com sucesso, todas as sessões ativas do usuário são imediatamente destruídas no banco de dados (`sessions`), exigindo novo login em todos os dispositivos.
 
 ---
 
