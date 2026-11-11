@@ -6,7 +6,8 @@ import { env } from '@/config/env';
 import * as schema from '@/infra/db/schema';
 import { isPostgresRunning } from './check-db';
 
-const testDbUrl = env.DATABASE_URL_TEST || env.DATABASE_URL;
+// Segurança de Dados: Testes NUNCA devem rodar contra o banco principal/desenvolvimento
+const testDbUrl = env.DATABASE_URL_TEST || 'postgres://postgres:postgres@localhost:5433/marketplace_test';
 
 export const testSql = postgres(testDbUrl, { max: 1 });
 export const testDb = drizzle(testSql, { schema });
