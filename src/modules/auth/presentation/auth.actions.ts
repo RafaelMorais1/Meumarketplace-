@@ -4,11 +4,15 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { DrizzleUserRepository } from '@/modules/users/infrastructure/drizzle-user.repository';
 import { DrizzleSessionRepository } from '../infrastructure/drizzle-session.repository';
+import { DrizzlePasswordResetTokenRepository } from '../infrastructure/drizzle-password-reset-token.repository';
+import { ConsoleEmailService } from '../infrastructure/console-email.service';
 import { Argon2PasswordHasher } from '../infrastructure/argon2-hasher';
 import { RegisterUserUseCase } from '../application/register-user.use-case';
 import { LoginUserUseCase } from '../application/login-user.use-case';
 import { LogoutUserUseCase } from '../application/logout-user.use-case';
 import { GetCurrentUserUseCase } from '../application/get-current-user.use-case';
+import { RequestPasswordResetUseCase } from '../application/request-password-reset.use-case';
+import { ResetPasswordUseCase } from '../application/reset-password.use-case';
 import { sessionCookieOptions } from '../infrastructure/cookie.service';
 import { AppError } from '@/shared/errors/app-error';
 import { PublicUser } from '@/modules/users/domain/user.entity';
@@ -17,6 +21,8 @@ import { PublicUser } from '@/modules/users/domain/user.entity';
 function getAuthUseCases() {
   const userRepo = new DrizzleUserRepository();
   const sessionRepo = new DrizzleSessionRepository();
+  const tokenRepo = new DrizzlePasswordResetTokenRepository();
+  const emailService = new ConsoleEmailService();
   const hasher = new Argon2PasswordHasher();
 
   return {
@@ -24,12 +30,15 @@ function getAuthUseCases() {
     login: new LoginUserUseCase(userRepo, sessionRepo, hasher),
     logout: new LogoutUserUseCase(sessionRepo),
     getCurrentUser: new GetCurrentUserUseCase(sessionRepo),
+    requestPasswordReset: new RequestPasswordResetUseCase(userRepo, tokenRepo, emailService),
+    resetPassword: new ResetPasswordUseCase(userRepo, tokenRepo, sessionRepo, hasher),
   };
 }
 
 export type ActionState = {
   error?: string;
   success?: boolean;
+  message?: string;
 };
 
 /**
@@ -125,5 +134,64 @@ export async function getCurrentUser(): Promise<PublicUser | null> {
   const { getCurrentUser } = getAuthUseCases();
   const token = cookies().get(sessionCookieOptions.name)?.value;
   return getCurrentUser.execute(token);
+}
+
+/**
+ * Server Action: Solicitação de Recuperação de Senha (RF-11, ADR-005)
+ */
+export async function forgotPasswordAction(
+  prevState: ActionState | null,
+  formData: FormData
+): Promise<ActionState> {
+  const email = formData.get('email') as string;
+  const { requestPasswordReset } = getAuthUseCases();
+
+  try {
+    const result = await requestPasswordReset.execute({ email });
+    return {
+      success: true,
+      message: result.message,
+    };
+  } catch (error) {
+    if (error instanceof AppError) {
+      return { error: error.message };
+    }
+    if (error instanceof Error && error.name === 'ZodError') {
+      return { error: (error as any).errors[0]?.message || 'E-mail inválido.' };
+    }
+    return { error: 'Ocorreu um erro ao processar sua solicitação. Tente novamente.' };
+  }
+}
+
+/**
+ * Server Action: Redefinição de Senha com Token (RF-12, ADR-005)
+ */
+export async function resetPasswordAction(
+  prevState: ActionState | null,
+  formData: FormData
+): Promise<ActionState> {
+  const rawData = {
+    token: formData.get('token') as string,
+    password: formData.get('password') as string,
+    confirmPassword: formData.get('confirmPassword') as string,
+  };
+
+  const { resetPassword } = getAuthUseCases();
+
+  try {
+    const result = await resetPassword.execute(rawData);
+    return {
+      success: true,
+      message: result.message,
+    };
+  } catch (error) {
+    if (error instanceof AppError) {
+      return { error: error.message };
+    }
+    if (error instanceof Error && error.name === 'ZodError') {
+      return { error: (error as any).errors[0]?.message || 'Dados inválidos fornecidos.' };
+    }
+    return { error: 'Falha ao redefinir senha. Verifique o link e tente novamente.' };
+  }
 }
 

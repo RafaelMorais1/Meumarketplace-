@@ -78,15 +78,47 @@ export const products = pgTable(
   })
 );
 
+/**
+ * Tabela de Tokens de Recuperação de Senha (RF-11, RF-12, ADR-005, RN-07)
+ * Armazena o hash SHA-256 de tokens temporários de alta entropia
+ */
+export const passwordResetTokens = pgTable(
+  'password_reset_tokens',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    userId: uuid('user_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }), // Se o usuário for excluído, os tokens de reset caem
+    tokenHash: varchar('token_hash', { length: 64 }).notNull().unique(),
+    expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
+    usedAt: timestamp('used_at', { withTimezone: true }),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => ({
+    // Índice único para validação instantânea do token enviado via link
+    tokenHashIdx: index('idx_password_reset_tokens_token_hash').on(table.tokenHash),
+    // Índice para localizar/invalidar tokens anteriores de um usuário
+    userIdIdx: index('idx_password_reset_tokens_user_id').on(table.userId),
+  })
+);
+
 // Definição das relações relacionais do Drizzle ORM (facilita consultas aninhadas)
 export const usersRelations = relations(users, ({ many }) => ({
   sessions: many(sessions),
   products: many(products),
+  passwordResetTokens: many(passwordResetTokens),
 }));
 
 export const sessionsRelations = relations(sessions, ({ one }) => ({
   user: one(users, {
     fields: [sessions.userId],
+    references: [users.id],
+  }),
+}));
+
+export const passwordResetTokensRelations = relations(passwordResetTokens, ({ one }) => ({
+  user: one(users, {
+    fields: [passwordResetTokens.userId],
     references: [users.id],
   }),
 }));
@@ -104,6 +136,9 @@ export type NewUserTable = typeof users.$inferInsert;
 
 export type SessionTable = typeof sessions.$inferSelect;
 export type NewSessionTable = typeof sessions.$inferInsert;
+
+export type PasswordResetTokenTable = typeof passwordResetTokens.$inferSelect;
+export type NewPasswordResetTokenTable = typeof passwordResetTokens.$inferInsert;
 
 export type ProductTable = typeof products.$inferSelect;
 export type NewProductTable = typeof products.$inferInsert;

@@ -76,3 +76,4 @@ sequenceDiagram
     end
     P-->>U: Exibe "Se o e-mail existir, enviamos as instruções"
 ```
+

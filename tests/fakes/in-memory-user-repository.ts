@@ -33,5 +33,13 @@ export class InMemoryUserRepository implements IUserRepository {
     this.users.push(newUser);
     return { ...newUser };
   }
+
+  async updatePassword(userId: string, newPasswordHash: string): Promise<void> {
+    const user = this.users.find((u) => u.id === userId);
+    if (user) {
+      user.passwordHash = newPasswordHash;
+      user.updatedAt = new Date();
+    }
+  }
 }
 

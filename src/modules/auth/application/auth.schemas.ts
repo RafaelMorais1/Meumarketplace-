@@ -43,3 +43,30 @@ export const loginSchema = z.object({
 });
 
 export type LoginInput = z.infer<typeof loginSchema>;
+
+export const forgotPasswordSchema = z.object({
+  email: z
+    .string({ required_error: 'E-mail é obrigatório' })
+    .trim()
+    .toLowerCase()
+    .email('Formato de e-mail inválido'),
+});
+
+export type ForgotPasswordInput = z.infer<typeof forgotPasswordSchema>;
+
+export const resetPasswordSchema = z
+  .object({
+    token: z.string({ required_error: 'Token de recuperação é obrigatório' }).min(10, 'Token inválido'),
+    password: z
+      .string({ required_error: 'Nova senha é obrigatória' })
+      .min(8, 'Senha deve ter no mínimo 8 caracteres (RN-04)')
+      .regex(/[A-Za-z]/, 'Senha deve conter pelo menos uma letra (RN-04)')
+      .regex(/[0-9]/, 'Senha deve conter pelo menos um número (RN-04)'),
+    confirmPassword: z.string({ required_error: 'Confirmação de senha é obrigatória' }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'As senhas não coincidem',
+    path: ['confirmPassword'],
+  });
+
+export type ResetPasswordInput = z.infer<typeof resetPasswordSchema>;

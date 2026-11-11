@@ -47,3 +47,4 @@ Adotamos os seguintes padrões de segurança e arquitetura alinhados às recomen
 ### Negativas / Complexidade Mitigada:
 - Exige uma coluna `used_at` e hashing SHA-256 antes da consulta no banco (custo de CPU desprezível para SHA-256).
 - Em desenvolvimento local, como não há provedor de email real configurado por padrão, o desenvolvedor consulta o link no console/terminal, o que é didático e transparente.
+

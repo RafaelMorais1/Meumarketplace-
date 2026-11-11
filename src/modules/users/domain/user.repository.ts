@@ -8,5 +8,6 @@ export interface IUserRepository {
   findById(id: string): Promise<User | null>;
   findByEmail(email: string): Promise<User | null>;
   create(user: Omit<User, 'id' | 'createdAt' | 'updatedAt'> & { id?: string }): Promise<User>;
+  updatePassword(userId: string, newPasswordHash: string): Promise<void>;
 }
 
