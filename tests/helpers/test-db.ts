@@ -32,6 +32,6 @@ export async function cleanTestDatabase() {
 }
 
 export async function closeTestDatabase() {
-  await testSql.end().catch(() => {});
+  await testSql.end().catch(() => { });
 }
 
